@@ -49,7 +49,7 @@ const User = () => {
               <a href="#notifications" onClick={handleLinkClick}><FaBell size={24} /></a>
             </li>
             <li className='logout'>
-              <a href="#logout" onClick={logout}><FaSignOutAlt size={24} /> Logout</a>
+              <a href="/PATHTOlogout" onClick={logout}><FaSignOutAlt size={24} /> Logout</a>
             </li>
           </ul>
         </nav>

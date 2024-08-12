@@ -12,11 +12,14 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const handleSignupRedirect = () => {
-    navigate("/signup");
+    navigate("/PATHTOSIGNUP");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+
+navigate('/Home')
 
     // Basic input validation
     if (!username) {
@@ -55,11 +58,11 @@ const SignIn = () => {
         login(user);
 
         // Redirect based on email domain
-        if (username.endsWith('@admin.com')) {
-          navigate('/admin'); // Navigate to admin page
-        } else {
-          navigate('/home'); // Navigate to home page
-        }
+        // if (username.endsWith('@admin.com')) {
+        //   navigate('/admin'); 
+        // } else {
+        //   navigate('/home'); 
+        // }
       } else {
         alert('Invalid email or password.');
       }
