@@ -9,19 +9,23 @@ import SignIn from './Components/Authentication/SignIn/SignIn';
 import { UserContext } from './Components/UserContext/UserContext';
 import { useContext } from 'react';
 
+import LoansDetails from './Components/Home/User/Loans/LoansDetails';
+
+
 function App() {
-  const {userdata} = useContext(UserContext);
+  const {user} = useContext(UserContext);
   return (
     <div>
    <Routes>
    <Route path="/PATHTOSIGNUP"  element={<SignUp/>} />
-   <Route path="/"  element={userdata?<User/>:<SignIn/>} />
+   <Route path="/"  element={user?<User/>:<SignIn/>} />
    <Route path="/PATHTOSLIDEBAR"  element={<ImageSlider/>} />
    <Route path="/Checking"  element={<Checking/>} />
    <Route path="/Home"  element={<User/>} />
-   <Route path="/PATHTOlogout"  element={userdata?<User/>:<SignIn/>} />
+   <Route path="/PATHTOlogout"  element={user?<User/>:<SignIn/>} />
+   <Route path="/PATHTOLOANDETAILS"  element={user?<LoansDetails/>:<SignIn/>} />
    
-   <Route path="/PATHTOSIGNIN"  element={userdata?<User/>:<SignIn/>} />
+   <Route path="/PATHTOSIGNIN"  element={user?<User/>:<SignIn/>} />
    {/* <Route path="/"  element={<User/>} /> */}
    
    </Routes>

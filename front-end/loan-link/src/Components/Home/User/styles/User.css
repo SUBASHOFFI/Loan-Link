@@ -239,3 +239,16 @@
   position: relative;
   z-index: 2;
 }
+
+/* Active link styling */
+.UserHomePageNavbar nav ul li.active a {
+  color: #ffca28; /* Highlight color for active link */
+  border-bottom: 2px solid #ffca28; /* Optional underline for active link */
+}
+
+/* Adjust other styling rules if necessary */
+
+/* Example of existing styles for reference */
+/* .UserHomePageNavbar nav ul li a:hover {
+  color: #95b3d5;
+} */

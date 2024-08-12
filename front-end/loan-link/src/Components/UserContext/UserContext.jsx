@@ -16,6 +16,14 @@ export const UserProvider = ({ children }) => {
       setIsLoggedIn(true);
     }
   }, []);
+  // useEffect(() => {
+  //   const storedUser = JSON.parse(localStorage.getItem('user'));
+  //   if (storedUser && storedUser.name) {
+  //     setUser(storedUser);
+  //     setIsLoggedIn(true);
+  //   }
+  // }, []);
+  
 
   const login = (userData) => {
     setUser(userData);
