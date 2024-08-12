@@ -53,7 +53,7 @@ const GOTOLOANDETAILS =()=>{
               <a href="#community-forum" onClick={() => handleLinkClick('community-forum')}><FaUsers size={24} /> Community Talks</a>
             </li>
             <li className={activeLink === 'loans' ? 'active' : ''}>
-              <a onClick={GOTOLOANDETAILS}><FaFileAlt size={24} /> Loans</a>
+              <a onClick={GOTOLOANDETAILS} className='LOANPOINTER'><FaFileAlt size={24} /> Loans</a>
             </li>
             <li className={activeLink === 'news-now' ? 'active' : ''}>
               <a href="#news-now" onClick={() => handleLinkClick('news-now')}><FaNewspaper size={24} /> News Now</a>

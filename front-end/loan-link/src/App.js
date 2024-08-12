@@ -10,6 +10,7 @@ import { UserContext } from './Components/UserContext/UserContext';
 import { useContext } from 'react';
 
 import LoansDetails from './Components/Home/User/Loans/LoansDetails';
+import Admin from './Components/Home/Admin/Admin';
 
 
 function App() {
@@ -18,11 +19,12 @@ function App() {
     <div>
    <Routes>
    <Route path="/PATHTOSIGNUP"  element={<SignUp/>} />
-   <Route path="/"  element={user?<User/>:<SignIn/>} />
+   {/* <Route path="/"  element={user?.role==='User'?<User/>:<SignIn/>} /> */}
+   <Route path="/"  element={<SignIn/>} />
    <Route path="/PATHTOSLIDEBAR"  element={<ImageSlider/>} />
    <Route path="/Checking"  element={<Checking/>} />
-   <Route path="/Home"  element={<User/>} />
-   <Route path="/PATHTOlogout"  element={user?<User/>:<SignIn/>} />
+   <Route path="/Home"  element={user?.role==='User'?<User/>:<Admin/>} />
+   <Route path="/PATHTOlogout"  element={user?.role==='Admin'?<User/>:<SignIn/>} />
    <Route path="/PATHTOLOANDETAILS"  element={user?<LoansDetails/>:<SignIn/>} />
    
    <Route path="/PATHTOSIGNIN"  element={user?<User/>:<SignIn/>} />

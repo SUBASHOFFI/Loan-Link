@@ -245,6 +245,9 @@
   color: #ffca28; /* Highlight color for active link */
   border-bottom: 2px solid #ffca28; /* Optional underline for active link */
 }
+.LOANPOINTER{
+  cursor: pointer;
+}
 
 /* Adjust other styling rules if necessary */
 
