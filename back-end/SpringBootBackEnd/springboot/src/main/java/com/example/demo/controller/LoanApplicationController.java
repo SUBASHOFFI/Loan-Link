@@ -58,6 +58,36 @@ public class LoanApplicationController {
         }
     }
 
+    @GetMapping("/get_all_loans")
+    public ResponseEntity<List<LoanApplication>> getAllLoanApplications() {
+        try {
+            List<LoanApplication> loans = service.findAllLoanApplications();
+            if (loans.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(loans, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @PutMapping("/update_loan_status")
+    public ResponseEntity<String> updateLoanStatus(@RequestBody LoanApplication loanApplication) {
+        try {
+            Optional<LoanApplication> existingLoan = service.findLoanApplicationById(loanApplication.getId());
+            if (existingLoan.isPresent()) {
+                LoanApplication updatedLoan = existingLoan.get();
+                updatedLoan.setStatus(loanApplication.getStatus());
+                service.saveLoanApplication(updatedLoan);
+                return new ResponseEntity<>("Loan status updated successfully", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Loan application not found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to update loan status", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
    
         
   

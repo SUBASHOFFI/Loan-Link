@@ -27,5 +27,12 @@ public class LoanApplicationService {
         return repository.findById(id);
     }
 
+    public List<LoanApplication> findAllLoanApplications() {
+        return repository.findAll();
+    }
+    // LoanApplicationService.java
+
+
+
 
 }

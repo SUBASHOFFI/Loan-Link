@@ -15,6 +15,7 @@ import CommunityForum from './Components/Home/User/CommunityTalk/CommunityTalk';
 import UserDetails from './Components/Home/Admin/UserDetails/UserDetails';
 
 import UserAppliedLoans from './Components/Home/User/LoanStatus/UserAppliedLoans';
+import AdminLoanApplication from './Components/Home/Admin/LoanStatus/AdminLoanApplication';
 
 
 
@@ -30,7 +31,7 @@ function App() {
    <Route path="/Checking"  element={<Checking/>} />
    <Route path="/Home"  element={user?.role==='User'?<User/>:<Admin/>} />
    <Route path="/PATHTOlogout"  element={user?.role==='Admin'?<User/>:<SignIn/>} />
-   <Route path="/PATHTOLOANDETAILS"  element={user?<LoansDetails/>:<SignIn/>} />
+   <Route path="/PATHTOLOANDETAILS"  element={user?.role==='User'?<LoansDetails/>:<AdminLoanApplication/>} />
    <Route path="/PATHTOCFT"  element={user?<CommunityForum/>:<SignIn/>} />
    
    <Route path="/PATHTOSIGNIN"  element={<User/>} />
