@@ -30,7 +30,9 @@ const GOTOLOANDETAILS =()=>{
   console.log(user);
   navigate('/PATHTOLOANDETAILS')
 }
-
+const GOTOCTFF=()=>{
+  navigate('/PATHTOCFT');
+}
 
   return (
     <div className='UserHomePageContainer'>
@@ -50,7 +52,7 @@ const GOTOLOANDETAILS =()=>{
               <a href="#home"><FaHome size={24} /> Home</a>
             </li>
             <li className={activeLink === 'community-forum' ? 'active' : ''}>
-              <a href="#community-forum" onClick={() => handleLinkClick('community-forum')}><FaUsers size={24} /> Community Talks</a>
+              <a onClick={GOTOCTFF}><FaUsers size={24} /> Community Talks</a>
             </li>
             <li className={activeLink === 'loans' ? 'active' : ''}>
               <a onClick={GOTOLOANDETAILS} className='LOANPOINTER'><FaFileAlt size={24} /> Loans</a>

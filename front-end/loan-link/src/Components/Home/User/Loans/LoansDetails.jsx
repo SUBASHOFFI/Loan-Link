@@ -1,43 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './LoansDetails.css';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../../UserContext/UserContext'; // Import UserContext
 
 const LoansDetails = () => {
-  const navaigate = useNavigate();
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext); // Get username and email from UserContext
   const [loanDetails, setLoanDetails] = useState([]);
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [userDetails, setUserDetails] = useState({
+    username: user.name || '',
+    email: user.email || '',
     aadharNumber: '',
     panNumber: '',
     bankDetails: '',
-    documents: null,
+    loanId: '',
+    loanName: '',
+    loanAmount: '',
+    interestRate: '',
+    loanTenure: '',
   });
-  const GOBACKFROMLD =()=>{
-    navaigate('/Home')
-  }
-  const [paymentStatus, setPaymentStatus] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchLoanDetails = async () => {
-      try {
-        const response = await axios.get('http://localhost:5454/auth/api/users_list');
-        setLoanDetails(response.data);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchLoanDetails();
-  }, []);
-
-  const handleApplyClick = (loan) => {
-    setSelectedLoan(loan);
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -47,36 +30,63 @@ const LoansDetails = () => {
     });
   };
 
-  const handleFileChange = (e) => {
+  const handleApplyClick = (loan) => {
+    setSelectedLoan(loan);
     setUserDetails({
       ...userDetails,
-      documents: e.target.files[0],
+      loanId: loan.id,
+      loanName: loan.loanName,
+      loanAmount: loan.loanAmount,
+      interestRate: loan.interestRate,
+      loanTenure: loan.loanTenure,
     });
   };
 
-  const handlePayment = () => {
-    // Simulate payment process
-    setTimeout(() => {
-      setPaymentStatus(true);
-      alert('Payment Successful!');
-    }, 1000);
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = () => {
-    // Submit form data to backend
-    const formData = {
-      ...userDetails,
-      loanId: selectedLoan.id,
-      loanName: selectedLoan.loanName,
-      loanAmount: selectedLoan.loanAmount,
-      interestRate: selectedLoan.interestRate,
-      loanTenure: selectedLoan.loanTenure,
+    const loanApplicationData = {
+      username: userDetails.username,
+      email: userDetails.email,
+      aadharNumber: userDetails.aadharNumber,
+      panNumber: userDetails.panNumber,
+      bankDetails: userDetails.bankDetails,
+      loanId: userDetails.loanId,
+      loanName: userDetails.loanName,
+      loanAmount: userDetails.loanAmount,
+      interestRate: userDetails.interestRate,
+      loanTenure: userDetails.loanTenure,
     };
-    console.log('Form Submitted:', formData);
+
+    try {
+      const response = await axios.post('http://localhost:5454/auth/api/users_list/save_loan_data', loanApplicationData);
+      console.log(response);
+  
+      if (response.status === 200) {
+
+        alert('Form submitted successfully!');
+        navigate('/Home');
+      } else {
+        alert('There was a problem submitting the form. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('An error occurred while submitting the form. Please try again.');
+    }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  useEffect(() => {
+    const fetchLoanDetails = async () => {
+      try {
+        const response = await axios.get('http://localhost:5454/auth/api/users_list');
+        setLoanDetails(response.data);
+      } catch (error) {
+        console.error('Error fetching loan details:', error);
+      }
+    };
+
+    fetchLoanDetails();
+  }, []);
 
   return (
     <div className="loans-details-page">
@@ -103,18 +113,24 @@ const LoansDetails = () => {
         {selectedLoan && (
           <div className="loan-application-form">
             <h2>Apply for {selectedLoan.loanName}</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Loan Amount</label>
-                <input type="text" value={selectedLoan.loanAmount} disabled />
+                <label>Username</label>
+                <input 
+                  type="text" 
+                  name="username" 
+                  value={userDetails.username} 
+                  readOnly 
+                />
               </div>
               <div className="form-group">
-                <label>Interest Rate</label>
-                <input type="text" value={selectedLoan.interestRate} disabled />
-              </div>
-              <div className="form-group">
-                <label>Loan Tenure</label>
-                <input type="text" value={selectedLoan.loanTenure} disabled />
+                <label>Email</label>
+                <input 
+                  type="email" 
+                  name="email" 
+                  value={userDetails.email} 
+                  readOnly 
+                />
               </div>
               <div className="form-group">
                 <label>Aadhaar Number</label>
@@ -143,29 +159,15 @@ const LoansDetails = () => {
                   onChange={handleInputChange} 
                 />
               </div>
-              <div className="form-group">
-                <label>Upload Documents</label>
-                <input 
-                  type="file" 
-                  name="documents" 
-                  onChange={handleFileChange} 
-                />
-              </div>
-              <div className="payment-section">
-                <button 
-                  type="button" 
-                  className="payment-button" 
-                  onClick={handlePayment}
-                >
-                  Make Payment
-                </button>
-                {paymentStatus && <p className="payment-success">Payment Completed Successfully!</p>}
-              </div>
               <button 
                 type="button" 
-                className="submit-button" 
-                onClick={handleSubmit}
-                disabled={!paymentStatus} // Disable submit if payment is not completed
+                className="payment-button"
+              >
+                Make Payment
+              </button>
+              <button 
+                type="submit" 
+                className="submit-button"
               >
                 Submit
               </button>
@@ -173,7 +175,7 @@ const LoansDetails = () => {
           </div>
         )}
       </div>
-      <button className="back-button" onClick={GOBACKFROMLD}>Back</button>
+      <button className="back-button" onClick={() => navigate('/Home')}>Back</button>
     </div>
   );
 };
