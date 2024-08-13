@@ -14,6 +14,9 @@ import Admin from './Components/Home/Admin/Admin';
 import CommunityForum from './Components/Home/User/CommunityTalk/CommunityTalk';
 import UserDetails from './Components/Home/Admin/UserDetails/UserDetails';
 
+import UserAppliedLoans from './Components/Home/User/LoanStatus/UserAppliedLoans';
+
+
 
 function App() {
   const {user} = useContext(UserContext);
@@ -32,6 +35,7 @@ function App() {
    
    <Route path="/PATHTOSIGNIN"  element={<User/>} />
    <Route path="/PATHTOADMINUSERDETAILS"  element={<UserDetails/>} />
+   <Route path="/PATHTOMYLOANS"  element={<UserAppliedLoans/>} />
    {/* <Route path="/"  element={<User/>} /> */}
    
    </Routes>
