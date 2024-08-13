@@ -15,6 +15,10 @@ const User = () => {
   const firstLetter = user?.name ? user.name.charAt(0).toUpperCase() : 'U';
   console.log(firstLetter);
 
+const GOTOADMINUSERDETAILS=()=>{
+  navigate('/PATHTOADMINUSERDETAILS')
+}
+
   const toggleMenu = () => {
     setMenuOpen(prevMenuOpen => !prevMenuOpen);
   };
@@ -33,7 +37,7 @@ const GOTOLOANDETAILS =()=>{
 const GOTOCTFF=()=>{
   navigate('/PATHTOCFT');
 }
-
+ 
   return (
     <div className='AdminHomePageContainer'>
       <div className='AdminHomePageNavbar'>
@@ -58,7 +62,7 @@ const GOTOCTFF=()=>{
               <a onClick={GOTOLOANDETAILS} className='LOANPOINTER'><FaFileAlt size={24} /> Loans Status</a>
             </li>
             <li className={activeLink === 'news-now' ? 'active' : ''}>
-              <a href="#news-now" onClick={() => handleLinkClick('news-now')}><FaNewspaper size={24} /> User Details</a>
+              <a href="#news-now" onClick={GOTOADMINUSERDETAILS}><FaNewspaper size={24} /> User Details</a>
             </li>
             <li className={activeLink === 'customer-care' ? 'active' : ''}>
               <a href="#customer-care" onClick={() => handleLinkClick('customer-care')}><FaPhoneAlt size={24} /> Customer Care</a>

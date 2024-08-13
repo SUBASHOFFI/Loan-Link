@@ -12,6 +12,7 @@ import { useContext } from 'react';
 import LoansDetails from './Components/Home/User/Loans/LoansDetails';
 import Admin from './Components/Home/Admin/Admin';
 import CommunityForum from './Components/Home/User/CommunityTalk/CommunityTalk';
+import UserDetails from './Components/Home/Admin/UserDetails/UserDetails';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
    <Route path="/PATHTOCFT"  element={user?<CommunityForum/>:<SignIn/>} />
    
    <Route path="/PATHTOSIGNIN"  element={<User/>} />
+   <Route path="/PATHTOADMINUSERDETAILS"  element={<UserDetails/>} />
    {/* <Route path="/"  element={<User/>} /> */}
    
    </Routes>
