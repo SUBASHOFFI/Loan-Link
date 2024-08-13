@@ -2,11 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './LoansDetails.css';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../../UserContext/UserContext'; // Import UserContext
+import { UserContext } from '../../../UserContext/UserContext';
 
 const LoansDetails = () => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext); // Get username and email from UserContext
+  const { user } = useContext(UserContext);
   const [loanDetails, setLoanDetails] = useState([]);
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [userDetails, setUserDetails] = useState({
@@ -20,6 +20,7 @@ const LoansDetails = () => {
     loanAmount: '',
     interestRate: '',
     loanTenure: '',
+    status: 'pending', // Add status field
   });
 
   const handleInputChange = (e) => {
@@ -56,14 +57,12 @@ const LoansDetails = () => {
       loanAmount: userDetails.loanAmount,
       interestRate: userDetails.interestRate,
       loanTenure: userDetails.loanTenure,
+      status: userDetails.status, // Include status in submission
     };
 
     try {
       const response = await axios.post('http://localhost:5454/auth/api/users_list/save_loan_data', loanApplicationData);
-      console.log(response);
-  
       if (response.status === 200) {
-
         alert('Form submitted successfully!');
         navigate('/Home');
       } else {

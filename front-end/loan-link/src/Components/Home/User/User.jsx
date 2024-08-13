@@ -58,7 +58,7 @@ const GOTOCTFF=()=>{
               <a onClick={GOTOLOANDETAILS} className='LOANPOINTER'><FaFileAlt size={24} /> Loans</a>
             </li>
             <li className={activeLink === 'news-now' ? 'active' : ''}>
-              <a href="#news-now" onClick={() => handleLinkClick('news-now')}><FaNewspaper size={24} /> News Now</a>
+              <a href="#news-now" onClick={() => handleLinkClick('news-now')}><FaNewspaper size={24} />My Loans</a>
             </li>
             <li className={activeLink === 'customer-care' ? 'active' : ''}>
               <a href="#customer-care" onClick={() => handleLinkClick('customer-care')}><FaPhoneAlt size={24} /> Customer Care</a>
