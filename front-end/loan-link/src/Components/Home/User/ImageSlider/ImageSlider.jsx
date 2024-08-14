@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import hill4Img from './SliderImages/Crop_Loan.png';
-import hill5Img from './SliderImages/Crop_Loan.png';
+import hill5Img from '../../../../Assets/Infrastructure_Loan.png';
 import treeImg from './SliderImages/Livestock_Loan.png';
-import leafImg from './SliderImages/Crop_Loan.png';
+import leafImg from '../../../../Assets/Gold_Loan.png';
 import './ImageSlider.css';
 
 const images = [
@@ -26,7 +26,9 @@ const ImageSlider = () => {
   };
 
   const handleNavigate = () => {
-    navigate(images[currentIndex].route);
+    navigate('/PATHTOLOANDETAILS');
+    
+
   };
 
   useEffect(() => {

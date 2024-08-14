@@ -45,6 +45,9 @@ const User = () => {
   const GOTOMYLOANPAGE = () => {
     navigate('/PATHTOMYLOANS'); // Replace with actual path
   };
+  const GOTOCUSTOMERCARE=()=>{
+    navigate('/PATHTOCUSTOMERCARE')
+  }
 
   return (
     <div className='UserHomePageContainer'>
@@ -73,7 +76,7 @@ const User = () => {
               <a href="#news-now" onClick={GOTOMYLOANPAGE}><FaNewspaper size={24} /> My Loans</a>
             </li>
             <li className={activeLink === 'customer-care' ? 'active' : ''}>
-              <a href="#customer-care" onClick={() => handleLinkClick('customer-care')}><FaPhoneAlt size={24} /> Customer Care</a>
+              <a onClick={GOTOCUSTOMERCARE} ><FaPhoneAlt size={24} /> Customer Care</a>
             </li>
             <li className='notifications'>
               <a href="#notifications" onClick={() => handleLinkClick('notifications')}><FaBell size={24} /></a>
@@ -94,6 +97,12 @@ const User = () => {
           </ul>
         </div>
         <div className='main-content'>
+          <ImageSlider />
+          <br></br>
+          <ImageSlider />
+          <br></br>
+          <ImageSlider />
+          <br></br>
           <ImageSlider />
         </div>
       </div>

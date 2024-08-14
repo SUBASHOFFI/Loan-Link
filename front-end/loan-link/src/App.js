@@ -16,7 +16,8 @@ import UserDetails from './Components/Home/Admin/UserDetails/UserDetails';
 
 import UserAppliedLoans from './Components/Home/User/LoanStatus/UserAppliedLoans';
 import AdminLoanApplication from './Components/Home/Admin/LoanStatus/AdminLoanApplication';
-
+import CustomerCare from './Components/Home/User/CustomerCare/CustomerCare';
+import AdminCustomer from './Components/Home/Admin/CustomerCare.jsx'
 
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
    <Route path="/Home"  element={user?.role==='User'?<User/>:<Admin/>} />
    <Route path="/PATHTOLOANDETAILS"  element={user?.role==='User'?<LoansDetails/>:<AdminLoanApplication/>} />
    <Route path="/PATHTOCFT"  element={user?<CommunityForum/>:<SignIn/>} />
+   <Route path="/PATHTOCUSTOMERCARE"  element={<CustomerCare/>} />
+   <Route path="/PATHTOCUSTOMERCAREADMIN"  element={<AdminCustomer/>} />
    
    <Route path="/PATHTOSIGNIN"  element={<User/>} />
    <Route path="/PATHTOADMINUSERDETAILS"  element={<UserDetails/>} />

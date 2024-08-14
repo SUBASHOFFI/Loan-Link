@@ -42,6 +42,11 @@ public ResponseEntity<List<User_Info>> getAllUsers() {
         ReqRes response = user_InfoService.registerUser(reg);
         return ResponseEntity.ok(response);
     }
+    @PostMapping("/login")
+    public ResponseEntity<ReqRes> logIn(@RequestBody ReqRes reg) {
+        ReqRes response = user_InfoService.loginTHEDATA(reg);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/Login")
     public ResponseEntity<ReqRes> LogIN(@RequestBody ReqRes reg) {
