@@ -24,13 +24,14 @@ function App() {
   return (
     <div>
    <Routes>
-   <Route path="/PATHTOSIGNUP"  element={<SignUp/>} />
-   {/* <Route path="/"  element={user?.role==='User'?<User/>:<SignIn/>} /> */}
    <Route path="/"  element={<SignIn/>} />
+   <Route path="/PATHTOSIGNUP"  element={<SignUp/>} />
+   <Route path="/PATHTOlogoutfromAdmin"  element={user?.role==='Admin'?<Admin/>:<SignIn/>} />
+   <Route path="/PATHTOlogoutfromUser"  element={user?.role==='User'?<User/>:<SignIn/>} />
+   {/* <Route path="/"  element={user?.role==='User'?<User/>:<SignIn/>} /> */}
    <Route path="/PATHTOSLIDEBAR"  element={<ImageSlider/>} />
    <Route path="/Checking"  element={<Checking/>} />
    <Route path="/Home"  element={user?.role==='User'?<User/>:<Admin/>} />
-   <Route path="/PATHTOlogout"  element={user?.role==='Admin'?<User/>:<SignIn/>} />
    <Route path="/PATHTOLOANDETAILS"  element={user?.role==='User'?<LoansDetails/>:<AdminLoanApplication/>} />
    <Route path="/PATHTOCFT"  element={user?<CommunityForum/>:<SignIn/>} />
    

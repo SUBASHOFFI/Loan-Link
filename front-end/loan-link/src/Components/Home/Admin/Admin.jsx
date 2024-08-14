@@ -10,15 +10,22 @@ const User = () => {
   const [activeLink, setActiveLink] = useState('home'); // Add state for active link
   const navigate = useNavigate();
   const { user, logout } = useContext(UserContext); // Get user from UserContext
-
+  const [showModal, setShowModal] = useState(false); 
   // Extract the first letter of the username
   const firstLetter = user?.name ? user.name.charAt(0).toUpperCase() : 'U';
   console.log(firstLetter);
+  const handleProfileClick = () => {
+    // Toggle modal visibility
+    setShowModal(true);
+  };
 
 const GOTOADMINUSERDETAILS=()=>{
   navigate('/PATHTOADMINUSERDETAILS')
 }
 
+const handleCloseModal = () => {
+  setShowModal(false);
+};
   const toggleMenu = () => {
     setMenuOpen(prevMenuOpen => !prevMenuOpen);
   };
@@ -41,7 +48,7 @@ const GOTOCTFF=()=>{
   return (
     <div className='AdminHomePageContainer'>
       <div className='AdminHomePageNavbar'>
-        <div className='profile'>
+        <div className='profile'onClick={handleProfileClick}>
           <span>{firstLetter}</span> {/* Display the first letter of the username */}
         </div>
         <div className='menu-button' onClick={toggleMenu}>
@@ -71,7 +78,7 @@ const GOTOCTFF=()=>{
               <a href="#notifications" onClick={() => handleLinkClick('notifications')}><FaBell size={24} /></a>
             </li>
             <li className='logout'>
-              <a href="/PATHTOlogout" onClick={logout}><FaSignOutAlt size={24} /> Logout</a>
+              <a href="/PATHTOlogoutfromAdmin" onClick={logout}><FaSignOutAlt size={24} /> Logout</a>
             </li>
           </ul>
         </nav>
@@ -92,6 +99,19 @@ const GOTOCTFF=()=>{
       <div className='AdminHomePageFooter'>
         <p>&copy; 2024 Your Company Name. All rights reserved.</p>
       </div>
+       {/* Modal for displaying user details */}
+       {showModal && (
+        <div className='user-details-modal'>
+          <div className='modal-content'>
+            <span className='close-button' onClick={handleCloseModal}>&times;</span>
+            <h2>User Details</h2>
+            <p><strong>Name:</strong> {user?.name}</p>
+            <p><strong>Email:</strong> {user?.email}</p>
+            <p><strong>Role:</strong> {user?.role}</p>
+            {/* Add more user details as needed */}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

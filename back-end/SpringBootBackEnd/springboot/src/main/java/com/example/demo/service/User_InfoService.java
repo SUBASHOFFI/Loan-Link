@@ -236,38 +236,112 @@ public class User_InfoService {
     //     return response;
     // }
 
-    public ReqRes updateUserDetailsById(Long id, ReqRes updatedUserDetails) {
-        Optional<User_Info> userOptional = user_InfoRepository.findById(id);
-        ReqRes response = new ReqRes();
+    // public ReqRes updateUserDetailsById(Long id, ReqRes updatedUserDetails) {
+    //     Optional<User_Info> userOptional = user_InfoRepository.findById(id);
+    //     ReqRes response = new ReqRes();
     
-        if (userOptional.isPresent()) {
-            User_Info user = userOptional.get();
-            // Update user fields with new data
-            user.setName(updatedUserDetails.getName());
-            if (updatedUserDetails.getPassword() != null && !updatedUserDetails.getPassword().isEmpty()) {
-                user.setPassword(passwordEncoder.encode(updatedUserDetails.getPassword()));
-            }
-            user.setRole(updatedUserDetails.getRole());
-            // Save the updated user back to the repository
-            User_Info updatedUser = user_InfoRepository.save(user);
+    //     if (userOptional.isPresent()) {
+    //         User_Info user = userOptional.get();
+    //         // Update user fields with new data
+    //         user.setName(updatedUserDetails.getName());
+    //         if (updatedUserDetails.getPassword() != null && !updatedUserDetails.getPassword().isEmpty()) {
+    //             user.setPassword(passwordEncoder.encode(updatedUserDetails.getPassword()));
+    //         }
+    //         user.setRole(updatedUserDetails.getRole());
+    //         // Save the updated user back to the repository
+    //         User_Info updatedUser = user_InfoRepository.save(user);
     
-            // Prepare the response
-            response.setStatusCode(200);
-            response.setMessage("User details updated successfully");
-            response.setName(updatedUser.getName());
-            response.setEmail(updatedUser.getEmail());
-            response.setRole(updatedUser.getRole());
+    //         // Prepare the response
+    //         response.setStatusCode(200);
+    //         response.setMessage("User details updated successfully");
+    //         response.setName(updatedUser.getName());
+    //         response.setEmail(updatedUser.getEmail());
+    //         response.setRole(updatedUser.getRole());
+    //     } else {
+    //         response.setStatusCode(404);
+    //         response.setError("User not found");
+    //     }
+    
+    //     return response;
+    // }
+    public boolean updateUserDetailsById(Long id, User_Info updatedUser) {
+        // Find the existing user
+        Optional<User_Info> existingUserOpt = user_InfoRepository.findById(id);
+    
+        if (existingUserOpt.isPresent()) {
+            User_Info existingUser = existingUserOpt.get();
+            
+            // Update user details
+            existingUser.setName(updatedUser.getName());
+            // Only update fields that should be changed, and avoid setting the email if it's not intended
+            // existingUser.setEmail(updatedUser.getEmail()); // Avoid updating email if not intended
+    
+            // Save updated user
+            user_InfoRepository.save(existingUser);
+            
+            return true;
         } else {
-            response.setStatusCode(404);
-            response.setError("User not found");
+            return false;
         }
-    
-        return response;
     }
     
 
-    
+    @Autowired
+    private User_InfoRepository userRepository;
 
+    public Optional<User_Info> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public User_Info updateUserName(Long id, String newName) {
+        Optional<User_Info> userOptional = userRepository.findById(id);
+        
+        if (userOptional.isPresent()) {
+            User_Info user = userOptional.get();
+            user.setName(newName);
+            return userRepository.save(user);
+        } else {
+            throw new RuntimeException("User not found with id: " + id);
+        }
+    }
+    public ReqRes checkLoginCredentials(String email, String password) {
+        ReqRes response = new ReqRes();
+        
+        try {
+            // Authenticate the user's credentials
+            AuthenticationManagerObj.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+            
+            // Fetch user details from the database
+            Optional<User_Info> userOptional = user_InfoRepository.findByEmail(email);
+            
+            if (userOptional.isPresent()) {
+                User_Info user = userOptional.get();
+                String token = jwtUtilsObj.generateToken(user);
+                String refreshToken = jwtUtilsObj.generateRefreshToken(new HashMap<>(), user);
+                
+                // Prepare successful response
+                response.setStatusCode(200);
+                response.setToken(token);
+                response.setRefreshToken(refreshToken);
+                response.setName(user.getName());
+                response.setEmail(user.getEmail());
+                response.setRole(user.getRole());
+                response.setExpirationTime("24Hrs");
+                response.setMessage("Login successful");
+            } else {
+                // User not found
+                response.setStatusCode(404);
+                response.setError("User not found");
+            }
+        } catch (Exception e) {
+            // Authentication failed
+            response.setStatusCode(401);
+            response.setError("Invalid email or password");
+        }
+        
+        return response;
+    }
+    
     
 
 }

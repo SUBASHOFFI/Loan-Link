@@ -74,16 +74,15 @@ public ResponseEntity<List<User_Info>> getAllUsers() {
 
 
 @PutMapping("/updateUser/{id}")
-public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User_Info updatedUser) {
-    boolean isUpdated = user_InfoService.updateUserDetailsById(id, updatedUser);
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User_Info updatedUser) {
+        boolean isUpdated = user_InfoService.updateUserDetailsById(id, updatedUser);
 
-    if (isUpdated) {
-        return ResponseEntity.ok("User updated successfully");
-    } else {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        if (isUpdated) {
+            return ResponseEntity.ok("User updated successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
     }
-}
-
 
 @PutMapping("/updateName/{id}")
 public ResponseEntity<String> updateUserName(@PathVariable Long id, @RequestBody String newName) {
@@ -96,5 +95,39 @@ public ResponseEntity<String> updateUserName(@PathVariable Long id, @RequestBody
 }
 
     
+@GetMapping("/login")
+public ResponseEntity<ReqRes> checkLogin(@RequestParam String email, @RequestParam String password) {
+    ReqRes response = user_InfoService.checkLoginCredentials(email, password);
+    if (response.getStatusCode() == 200) {
+        return ResponseEntity.ok(response);
+    } else {
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+}
+
 
 }
+
+
+
+________________________________
+ public boolean updateUserDetailsById(Long id, User_Info updatedUser) {
+        // Find the existing user
+        Optional<User_Info> existingUserOpt = user_InfoRepository.findById(id);
+
+        if (existingUserOpt.isPresent()) {
+            User_Info existingUser = existingUserOpt.get();
+            
+            // Update user details
+            existingUser.setName(updatedUser.getName());
+            existingUser.setEmail(updatedUser.getEmail());
+            // Update other fields as necessary
+
+            // Save updated user
+            user_InfoRepository.save(existingUser);
+            
+            return true;
+        } else {
+            return false;
+        }
+    }

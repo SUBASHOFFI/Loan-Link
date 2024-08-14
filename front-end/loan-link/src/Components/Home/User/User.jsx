@@ -7,40 +7,49 @@ import { UserContext } from '../../UserContext/UserContext';
 
 const User = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState('home'); // Add state for active link
+  const [activeLink, setActiveLink] = useState('home');
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const navigate = useNavigate();
-  const { user, logout } = useContext(UserContext); // Get user from UserContext
+  const { user, logout } = useContext(UserContext);
 
-  // Extract the first letter of the username
   const firstLetter = user?.name ? user.name.charAt(0).toUpperCase() : 'U';
-  console.log(firstLetter);
 
   const toggleMenu = () => {
     setMenuOpen(prevMenuOpen => !prevMenuOpen);
   };
-  const GOTOMYLOANPAGE=()=>{
-    navigate('/PATHTOMYLOANS')
-  }
 
   const handleLinkClick = (link) => {
     if (window.innerWidth <= 768) {
-      setMenuOpen(false); // Close the menu on link click if in mobile view
+      setMenuOpen(false);
     }
-    setActiveLink(link); // Set the active link based on the clicked link
+    setActiveLink(link);
   };
 
-const GOTOLOANDETAILS =()=>{
-  console.log(user);
-  navigate('/PATHTOLOANDETAILS')
-}
-const GOTOCTFF=()=>{
-  navigate('/PATHTOCFT');
-}
+  const handleProfileClick = () => {
+    // Toggle modal visibility
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const GOTOLOANDETAILS = () => {
+    navigate('/PATHTOLOANDETAILS'); // Replace with actual path
+  };
+
+  const GOTOCTFF = () => {
+    navigate('/PATHTOCFT'); // Replace with actual path
+  };
+
+  const GOTOMYLOANPAGE = () => {
+    navigate('/PATHTOMYLOANS'); // Replace with actual path
+  };
 
   return (
     <div className='UserHomePageContainer'>
       <div className='UserHomePageNavbar'>
-        <div className='profile'>
+        <div className='profile' onClick={handleProfileClick}>
           <span>{firstLetter}</span> {/* Display the first letter of the username */}
         </div>
         <div className='menu-button' onClick={toggleMenu}>
@@ -52,7 +61,7 @@ const GOTOCTFF=()=>{
         <nav className={menuOpen ? 'open' : ''}>
           <ul>
             <li className={activeLink === 'home' ? 'active' : ''}>
-              <a href="#home"><FaHome size={24} /> Home</a>
+              <a href="#home" onClick={() => handleLinkClick('home')}><FaHome size={24} /> Home</a>
             </li>
             <li className={activeLink === 'community-forum' ? 'active' : ''}>
               <a onClick={GOTOCTFF}><FaUsers size={24} /> Community Talks</a>
@@ -61,7 +70,7 @@ const GOTOCTFF=()=>{
               <a onClick={GOTOLOANDETAILS} className='LOANPOINTER'><FaFileAlt size={24} /> Loans</a>
             </li>
             <li className={activeLink === 'news-now' ? 'active' : ''}>
-              <a href="#news-now" onClick={GOTOMYLOANPAGE}><FaNewspaper size={24} />My Loans</a>
+              <a href="#news-now" onClick={GOTOMYLOANPAGE}><FaNewspaper size={24} /> My Loans</a>
             </li>
             <li className={activeLink === 'customer-care' ? 'active' : ''}>
               <a href="#customer-care" onClick={() => handleLinkClick('customer-care')}><FaPhoneAlt size={24} /> Customer Care</a>
@@ -70,7 +79,7 @@ const GOTOCTFF=()=>{
               <a href="#notifications" onClick={() => handleLinkClick('notifications')}><FaBell size={24} /></a>
             </li>
             <li className='logout'>
-              <a href="/PATHTOlogout" onClick={logout}><FaSignOutAlt size={24} /> Logout</a>
+              <a href="/PATHTOlogoutfromUser" onClick={(e) => { logout(); }}><FaSignOutAlt size={24} /> Logout</a>
             </li>
           </ul>
         </nav>
@@ -91,6 +100,20 @@ const GOTOCTFF=()=>{
       <div className='UserHomePageFooter'>
         <p>&copy; 2024 Your Company Name. All rights reserved.</p>
       </div>
+
+      {/* Modal for displaying user details */}
+      {showModal && (
+        <div className='user-details-modal'>
+          <div className='modal-content'>
+            <span className='close-button' onClick={handleCloseModal}>&times;</span>
+            <h2>User Details</h2>
+            <p><strong>Name:</strong> {user?.name}</p>
+            <p><strong>Email:</strong> {user?.email}</p>
+            <p><strong>Role:</strong> {user?.role}</p>
+            {/* Add more user details as needed */}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

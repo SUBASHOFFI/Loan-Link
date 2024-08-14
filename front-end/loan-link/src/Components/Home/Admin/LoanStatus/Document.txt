@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const AdminLoanApplication = () => {
     const [loanApplications, setLoanApplications] = useState([]);
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // For navigation
 
     useEffect(() => {
         fetchAllLoanApplications();
@@ -36,10 +34,7 @@ const AdminLoanApplication = () => {
             setError('Failed to update loan status.');
         }
     };
-
-    const handleBack = () => {
-        navigate(-1); // Navigate to the previous page
-    };
+    
 
     return (
         <div className="admin-loan-application">
@@ -97,7 +92,6 @@ const AdminLoanApplication = () => {
             ) : (
                 <p>No loan applications found.</p>
             )}
-            <button onClick={handleBack} className="back-button">Back</button>
         </div>
     );
 };

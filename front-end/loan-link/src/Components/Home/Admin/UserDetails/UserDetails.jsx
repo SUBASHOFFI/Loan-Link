@@ -42,9 +42,9 @@ const UserDetails = () => {
 
   const handleUpdate = () => {
     if (editingUser) {
-      axios.put(`http://localhost:5454/auth/api/users_list/updateUser/${editingUser.email}`, newUserDetails)
-        .then((response) => {
-          setUsers(users.map(user => user.id === editingUser.id ? response.data : user));
+      axios.put(`http://localhost:5454/auth/api/users_list/updateUser/${editingUser.id}`, newUserDetails)
+        .then(() => {
+          setUsers(users.map(user => user.id === editingUser.id ? { ...user, ...newUserDetails } : user));
           setEditingUser(null);
         })
         .catch((error) => {
@@ -59,7 +59,7 @@ const UserDetails = () => {
     setNewUserDetails(prevDetails => ({ ...prevDetails, [name]: value }));
   };
 
-  const handleBack_fromuserdetails= () => {
+  const handleBackFromUserDetails = () => {
     navigate(-1); // Navigate to the previous page
   };
 
@@ -130,7 +130,7 @@ const UserDetails = () => {
         </div>
       )}
       
-      <button className="back-button" onClick={handleBack_fromuserdetails}>Back</button>
+      <button className="back-button" onClick={handleBackFromUserDetails}>Back</button>
     </div>
   );
 };
